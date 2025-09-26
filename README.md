@@ -9,7 +9,7 @@ La solución permite un ciclo completo de **carga de datos → entrenamiento →
 ---
 
 ## 📂 Estructura del Proyecto
-\`\`\`bash
+```bash
 
 anom-detector/
 ├── .venv/                  # Entorno virtual local
@@ -31,7 +31,7 @@ anom-detector/
 ├── resp.json                # Ejemplo de respuesta del endpoint
 ├── requirements.txt         # Dependencias para la app local
 
-\`\`\`
+```
 
 ---
 
@@ -63,62 +63,62 @@ anom-detector/
 ## 🚀 Paso a Paso de Montaje
 
 ### 1. Crear el **Resource Group** en Azure
-\`\`\`bash
+```bash
 az group create --name ws-gas-anom-wus3 --location westus3
-\`\`\`
+```
 
 ### 2. Crear el **Workspace de Azure ML**
-\`\`\`bash
+```bash
 az ml workspace create --name ws-gas-anom-wus3 --resource-group ws-gas-anom-wus3 --location westus3
-\`\`\`
+```
 
 ### 3. Crear el **Compute Cluster**
 Ejemplo CPU básico:
-\`\`\`bash
+```bash
 az ml compute create -n cpu-ds1 --type AmlCompute --min-instances 0 --max-instances 2 --size Standard_DS2_v2
-\`\`\`
+```
 
 ### 4. Registrar el **Data Asset**
 Cuando se sube un dataset en la UI (app.py), este se registra automáticamente como:
-\`\`\`
+```
 azureml:gasdata-<UUID>@latest
-\`\`\`
+```
 
 ### 5. Lanzar **Job de Entrenamiento**
-\`\`\`bash
+```bash
 az ml job create -f aml/job-train.yml
-\`\`\`
+```
 
 ### 6. Registrar el **Modelo**
-\`\`\`bash
+```bash
 az ml model create --name iforest-gas --type custom_model --path azureml://jobs/<JOB_ID>/outputs/artifacts/paths/outputs/model_iforest.pkl
-\`\`\`
+```
 
 ### 7. Crear el **Endpoint Online**
-\`\`\`bash
+```bash
 az ml online-endpoint create -f aml/online-endpoint.yml
-\`\`\`
+```
 
 ### 8. Crear el **Deployment**
-\`\`\`bash
+```bash
 az ml online-deployment create -f aml/online-deployment.yml --all-traffic
-\`\`\`
+```
 
 > ⚠️ Importante: usar \`Standard_DS3_v2\` o superior para evitar errores de memoria.
 
 ### 9. Configurar **.env**
-\`\`\`env
+```env
 AML_ENDPOINT_URL=https://gas-iforest-endpoint.westus3.inference.ml.azure.com/score
 AML_ENDPOINT_KEY=<tu_primary_key>
 AML_ENDPOINT_NAME=gas-iforest-endpoint
 AML_DEPLOYMENT_NAME=blue
-\`\`\`
+```
 
 ### 10. Ejecutar la **App Streamlit**
-\`\`\`bash
+```bash
 pip install -r requirements.txt
 streamlit run app.py
-\`\`\`
+```
 
 ---
 
@@ -143,12 +143,12 @@ streamlit run app.py
 
 ## 📊 Ejemplo de Respuesta del Endpoint
 Request:
-\`\`\`json
+```json
 {"data":[{"FechaHora":"2024-01-01 00:00:00","VolCorrected":1.23}]}
-\`\`\`
+```
 
 Response:
-\`\`\`json
+```json
 {
   "ok": true,
   "rows": 1,
@@ -157,7 +157,7 @@ Response:
   ],
   "csv_base64": "..."
 }
-\`\`\`
+```
 
 ---
 
