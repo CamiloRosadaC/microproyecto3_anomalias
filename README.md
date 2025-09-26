@@ -10,6 +10,7 @@ La solución permite un ciclo completo de **carga de datos → entrenamiento →
 
 ## 📂 Estructura del Proyecto
 \`\`\`bash
+
 anom-detector/
 ├── .venv/                  # Entorno virtual local
 ├── aml/                    # Configuración y scripts para Azure ML
@@ -29,6 +30,7 @@ anom-detector/
 ├── payload.json             # Ejemplo de payload para pruebas
 ├── resp.json                # Ejemplo de respuesta del endpoint
 ├── requirements.txt         # Dependencias para la app local
+
 \`\`\`
 
 ---
