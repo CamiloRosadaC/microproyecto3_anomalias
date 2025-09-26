@@ -1,0 +1,12 @@
+$schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
+name: blue
+endpoint_name: gas-iforest-endpoint
+model: azureml:iforest-gas:12
+code_configuration:
+  code: inference
+  scoring_script: score.py
+environment:
+  conda_file: env/conda.yml
+  image: mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu22.04:latest
+instance_type: Standard_DS2_v2
+instance_count: 1

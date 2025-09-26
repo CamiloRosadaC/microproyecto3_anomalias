@@ -1,0 +1,12 @@
+$schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
+name: blue
+endpoint_name: gas-iforest-endpoint
+model: azureml:iforest-gas:12
+instance_type: Standard_DS3_v2
+instance_count: 1
+environment: azureml:/subscriptions/967210ab-ae81-4cd0-ae3b-cf2e6f202192/resourceGroups/rg-gas-anom-wus3/providers/Microsoft.MachineLearningServices/workspaces/ws-gas-anom-wus3/environments/CliV2AnonymousEnvironment/versions/f188132adaa9bc5b90fed83f687738e490b14c307c861d38ed4b5905d0574ba7
+environment_variables:
+  AML_APP_ROOT: "/var/azureml-app/inference"
+  AZUREML_ENTRY_SCRIPT: "score.py"
+  AZUREML_MODEL_DIR: "/var/azureml-app/azureml-models/iforest-gas/12"
+  MODEL_PATH: "/var/azureml-app/azureml-models/iforest-gas/12/model_iforest.pkl"

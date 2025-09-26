@@ -1,0 +1,29 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+type: command
+
+code: .
+
+command: >
+  python train.py
+  --data ${{inputs.data}}
+  --date_col ${{inputs.date_col}}
+  --target_col ${{inputs.target_col}}
+  --contamination ${{inputs.contamination}}
+
+environment:
+  conda_file: env/conda.yml
+  image: mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04
+
+compute: azureml:cpu-ds1
+
+inputs:
+  data:
+    type: uri_folder
+    mode: ro_mount   # (opcional; si lo quitas, AML descargará a ./inputs/data)
+  date_col: "FechaHora"
+  target_col: "VolCorrected"
+  contamination: 0.01
+
+
+
+
